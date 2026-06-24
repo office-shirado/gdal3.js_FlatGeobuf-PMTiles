@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>gdal3.js_FlatGeobuf-PMTiles</title>
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div id="gdal-overlay">
+  <div class="init-box">
+    <div class="init-title">GDAL.js 初期化中...</div>
+    <div class="init-bar"><div id="init-fill"></div></div>
+    <div class="init-sub">初回のみ数十秒かかります</div>
+  </div>
+</div>
+
+<div id="app">
+  <div id="sidebar">
+
+    <div class="logo">GeoJSON 変換ツール</div>
+
+    <!-- ドロップゾーン -->
+    <div id="dropzone">
+      <div class="dz-icon">&#x1F4C2;</div>
+      <div class="dz-text">GeoJSON をドロップ</div>
+      <div class="dz-sub">または <button id="browse-btn">ファイルを選択</button></div>
+      <div id="file-info"></div>
+    </div>
+    <input type="file" id="file-input" accept=".geojson,.json" style="display:none">
+
+    <!-- 変換オプション -->
+    <div class="section-title">変換オプション</div>
+    <div class="opts">
+      <div class="opt-row">
+        <label>最小ズーム(0～22)</label>
+        <input type="number" id="opt-minzoom" value="14" min="0" max="22">
+      </div>
+      <div class="opt-row">
+        <label>最大ズーム(0～22)</label>
+        <input type="number" id="opt-maxzoom" value="16" min="0" max="22">
+      </div>
+      <div class="opt-row">
+        <label>簡略化・劣化(0：少 ～ 多)</label>
+        <input type="number" id="opt-simplify" value="0" min="0" step="0.1">
+      </div>
+      <div class="opt-row">
+        <label>最大フィーチャ/タイル</label>
+        <input type="number" id="opt-maxfeat" value="200000" min="1000">
+      </div>
+      <div class="opt-checks">
+        <label><input type="checkbox" id="opt-fgb" checked> FlatGeobuf</label>
+        <label><input type="checkbox" id="opt-pmt" checked> PMTiles</label>
+        <label><input type="checkbox" id="opt-preview" checked> 地図プレビュー</label>
+      </div>
+    </div>
+
+    <!-- ボタン -->
+    <div class="btn-row">
+      <button id="btn-convert" disabled>&#x25B6; 変換 &amp; 生成</button>
+      <button id="btn-clear" class="btn-sub">クリア</button>
+    </div>
+
+    <!-- プログレス -->
+    <div id="prog-wrap">
+      <div id="prog-bar"><div id="prog-fill"></div></div>
+      <div id="prog-label"></div>
+    </div>
+
+    <!-- 結果 -->
+    <div id="results-sec" style="display:none">
+      <div class="section-title">ダウンロード</div>
+      <div id="results"></div>
+    </div>
+
+    <!-- ログ -->
+    <details id="log-wrap" open>
+      <summary>ログ</summary>
+      <div id="log"></div>
+    </details>
+
+  </div><!-- /sidebar -->
+
+  <div id="map-wrap">
+    <div id="map"></div>
+    <div id="map-msg">ファイルを変換するとプレビュー表示</div>
+    <div id="preview-badge" style="display:none">PREVIEW</div>
+
+    <!-- 属性ラベルセレクト -->
+    <div id="label-wrap" style="display:none">
+      <label for="label-select">&#x1F3F7; ラベル:</label>
+      <select id="label-select"></select>
+    </div>
+  </div>
+
+</div>
+
+<script src="lib/gdal3.js"></script>
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script src="https://unpkg.com/pmtiles@4.3.0/dist/pmtiles.js"></script>
+<script src="js/main.js"></script>
+<script src="js/map.js"></script>
+<script src="js/download.js"></script>
+<script src="js/gdal.js"></script>
+<script src="js/load.js"></script>
+</body>
+</html>
